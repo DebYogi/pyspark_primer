@@ -1,5 +1,10 @@
 # PySpark Mini Course — Workshop Materials
 
+[![Python Tests](https://github.com/DebYogi/pyspark_primer/actions/workflows/python-test.yml/badge.svg)](https://github.com/DebYogi/pyspark_primer/actions/workflows/python-test.yml)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![PySpark](https://img.shields.io/badge/pyspark-3.5.7-orange)](https://spark.apache.org/docs/latest/api/python/index.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This repository contains a small, self-contained learning workshop for PySpark. It's built for interactive exploration in Jupyter notebooks and for small, low-risk script additions to support lessons.
 
 ## Repository layout (short)
