@@ -80,7 +80,7 @@ The example project entry point is `pyspark_ml_project/main.py` (it uses the pac
 If you prefer module mode and your PYTHONPATH is configured to use the `pyspark_ml_project` package, you can run:
 
 ```bash
-python -m pyspark_ml_project.main
+python -m main_keras_xgb.main
 ```
 
 Avoid `python -m src.main` from the repository root — this may import the top-level `src` folder instead of the intended package and cause import errors.
