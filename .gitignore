@@ -1,9 +1,7 @@
 # Python environments
-my_pyspark_env/
 __pycache__/
 *.py[cod]
 *$py.class
-.env
 .venv
 env/
 venv/
@@ -48,7 +46,13 @@ spark-warehouse/
 metastore_db/
 output/
 **/output/
-**/iris_*/
+ 
+
+# Models and large artifacts
+models/
+**/models/
+pyspark_ml_project/output/
+pyspark_ml_project2/output/
 
 # Environment files
 .env
