@@ -28,6 +28,10 @@ Main components:
     - `data.py` - Data loading and preprocessing
     - `model.py` - ML model implementations
     - `evaluate.py` - Evaluation metrics
+ - `pyspark_ml_project2/` — Extended examples and deployables
+   - `src/` - alternate/extended implementations
+   - `models/` - trained model artifacts (ignored by git)
+   - `tests/` - unit/integration tests for deployment utilities
 
 - `scripts/` — Utility scripts
   - `preview_data.py` - CLI tool for quick data exploration
@@ -130,7 +134,7 @@ pip install -r requirements.txt
 .venv/bin/python pyspark_ml_project/main.py
 
 # Option B — Keras & XGBoost comparison
-.venv/bin/python pyspark_ml_project/keras_xgb_compare.py
+.venv/bin/python pyspark_ml_project/main_keras_xgb.py
 
 # 4) open Jupyter Lab to explore notebooks
 jupyter lab
