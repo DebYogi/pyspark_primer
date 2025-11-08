@@ -7,12 +7,35 @@
 
 This repository contains a small, self-contained learning workshop for PySpark. It's built for interactive exploration in Jupyter notebooks and for small, low-risk script additions to support lessons.
 
-## Repository layout (short)
-- `research/` — primary notebooks and lesson materials (main: `research/IntroductionToPySpark.ipynb`).
-- `data/` — small sample datasets used by the notebooks (examples: `data/boston.csv`, `data/titanic.csv`).
-- `pyspark_ml_project/` and `src/` — example code and an OOP-style PySpark project (see `src/main.py`).
-- `requirements.txt` — Python dependencies for local development.
-- `.github/copilot-instructions.md` — repo-specific guidance for AI agents and contributors.
+## Repository layout
+Main components:
+- `research/` — Jupyter notebooks for interactive learning
+  - `IntroductionToPySpark.ipynb` - main tutorial notebook
+  - `sparkML_*.ipynb` - machine learning examples
+  - `DataIO.ipynb`, `workingWithCols.ipynb` - data manipulation tutorials
+  - Other supplementary notebooks for specific topics
+
+- `data/` — Sample datasets in various formats
+  - `boston.csv` - Boston housing dataset
+  - `titanic.csv` - Titanic passenger data
+  - Various partitioned and parquet versions for I/O examples
+
+- `pyspark_ml_project/` — ML pipeline examples
+  - `main.py` - Entry point showing PySpark ML pipeline orchestration
+  - `keras_xgb_compare.py` - Comparison of Keras and XGBoost models
+  - `src/` - Modular implementation (data loading, preprocessing, training)
+    - `config.py` - Configuration and parameters
+    - `data.py` - Data loading and preprocessing
+    - `model.py` - ML model implementations
+    - `evaluate.py` - Evaluation metrics
+
+- `scripts/` — Utility scripts
+  - `preview_data.py` - CLI tool for quick data exploration
+
+- Project files
+  - `requirements.txt` — Python dependencies
+  - `.github/workflows/python-test.yml` - CI pipeline configuration
+  - `LICENSE` - MIT license
 
 ## Quick start (macOS, zsh)
 
@@ -22,7 +45,7 @@ Minimum steps to get the notebooks and example code running locally.
 
 ```bash
 python3 -m venv .venv
-source venv/bin/activate
+source .venv/bin/activate  # Note: use .venv, not venv
 ```
 
 2) Install Python dependencies
@@ -31,7 +54,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Note: `pyspark` can be installed via `pip` (recommended for simple local runs) or you can point to a Spark distribution via `SPARK_HOME` and use `spark-submit`. If you install Spark separately, ensure `JAVA_HOME` and `SPARK_HOME` are set in your shell.
+Note: This installs all required packages including:
+- `pyspark==3.5.7` - core PySpark functionality
+- `jupyter` - for running the notebooks
+- `numpy`, `pandas` - for data manipulation examples
+- Other ML-related packages used in the examples
+
+If you prefer using a separate Spark distribution instead of pip-installed PySpark, ensure `JAVA_HOME` and `SPARK_HOME` are set in your shell.
 
 3) Start Jupyter Lab (open the notebooks in `research/`)
 
@@ -97,11 +126,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # 3) run the example project
-# Option A — direct run using the venv python (recommended)
+# Option A — PySpark ML Pipeline example
 .venv/bin/python pyspark_ml_project/main.py
 
-# Option B — module mode if PYTHONPATH is configured for the package
-python -m pyspark_ml_project.main
+# Option B — Keras & XGBoost comparison
+.venv/bin/python pyspark_ml_project/keras_xgb_compare.py
 
 # 4) open Jupyter Lab to explore notebooks
 jupyter lab
@@ -115,44 +144,57 @@ export SPARK_HOME="/usr/local/Cellar/apache-spark/3.4.0/libexec"
 export PATH="$SPARK_HOME/bin:$PATH"
 ```
 
-## Small additions you can ask me to make
+## Additional Tools and Scripts
 
-- `scripts/preview_data.py`: CLI helper that loads `data/boston.csv`, prints schema, and shows the first N rows.
-- `CONTRIBUTING.md`: short guidance for editing notebooks and committing pedagogical changes.
-- Replace any absolute data paths in `research/IntroductionToPySpark.ipynb` with relative `data/` paths and ensure the SparkSession uses `master("local[*]")`.
+### Data Preview CLI (`scripts/preview_data.py`)
 
-### `scripts/preview_data.py` usage
-
-After I add the script (created at `scripts/preview_data.py`), run it from the repository root like this:
+A quick way to inspect CSV files using PySpark:
 
 ```bash
-# show first 5 rows (default)
+# Activate your environment first
+source .venv/bin/activate
+
+# Show first 5 rows (default)
 python scripts/preview_data.py data/boston.csv
 
-# show first 10 rows
+# Show first 10 rows with schema
 python scripts/preview_data.py data/boston.csv --num 10
 ```
 
-Or run with your Spark distribution via `spark-submit` (if you need a full Spark install):
+Alternative: use `spark-submit` if you have a separate Spark installation:
 
 ```bash
-# when SPARK_HOME is set
 $SPARK_HOME/bin/spark-submit --master local[*] scripts/preview_data.py data/boston.csv --num 10
 ```
 
 ## Troubleshooting
 
-- If Spark fails to start: check `JAVA_HOME`, `SPARK_HOME`, and that the Python environment can import `pyspark`.
-- If a notebook references a missing file, search for absolute paths and replace with `data/` relative paths.
+Common issues and solutions:
 
-## Next steps
+1. PySpark import errors
+   - Ensure you've activated the virtualenv: `source .venv/bin/activate`
+   - Verify PySpark is installed: `pip list | grep pyspark`
+   - If using system Spark: check `JAVA_HOME` and `SPARK_HOME` are set
 
-I can implement any of the small additions above. Tell me which one you'd like first and I'll:
+2. Notebook data loading
+   - Use relative paths from repository root (e.g., `data/boston.csv`)
+   - If you see absolute paths, replace them with relative ones
+   - Run cells in order (SparkSession must be created first)
 
-1. add the script and a short usage section to this README, or
-2. update the main tutorial notebook to use relative paths and a local Spark master.
+3. ML Pipeline issues
+   - Ensure numpy/pandas are installed: `pip install numpy pandas`
+   - Check training data exists in expected location
+   - Use `.master("local[*]")` in SparkSession for local runs
 
-If you'd like, I can also run a quick verification that `python -m src.main` runs in this environment and report back.
+## Contributing
+
+This is a learning-focused repository. When contributing:
+1. Keep notebooks educational and well-commented
+2. Add docstrings to utility functions
+3. Test changes with the example notebooks
+4. Run the CI checks before submitting PRs
+
+For detailed guidelines, see our [Contributing Guide](CONTRIBUTING.md).
 
 
 
